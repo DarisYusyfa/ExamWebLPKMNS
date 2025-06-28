@@ -16,21 +16,21 @@ export class AntiCheatManager {
 
     // Prevent tab switching
     this.setupVisibilityListener();
-    
+
     // Prevent reload/navigation
     this.setupBeforeUnloadListener();
-    
+
     // Prevent context menu
     this.setupContextMenuListener();
-    
+
     // Prevent common keyboard shortcuts
     this.setupKeyboardListener();
-    
+
     // Monitor fullscreen
     this.setupFullscreenListener();
-    
+
     // Request fullscreen
-    this.requestFullscreen();
+    // this.requestFullscreen();
   }
 
   stopMonitoring(): void {
@@ -83,7 +83,7 @@ export class AntiCheatManager {
       // Prevent common shortcuts
       const forbiddenKeys = [
         'F12', // DevTools
-        'F5',  // Refresh
+        'F5', // Refresh
         'F11', // Fullscreen toggle
       ];
 
@@ -112,13 +112,8 @@ export class AntiCheatManager {
         const shiftPressed = combo.shift ? e.shiftKey : true;
         const altPressed = combo.alt ? e.altKey : true;
         const cmdPressed = combo.cmd && e.metaKey;
-        
-        if (
-          (ctrlPressed || cmdPressed) && 
-          shiftPressed && 
-          altPressed && 
-          e.key.toLowerCase() === combo.key.toLowerCase()
-        ) {
+
+        if ((ctrlPressed || cmdPressed) && shiftPressed && altPressed && e.key.toLowerCase() === combo.key.toLowerCase()) {
           e.preventDefault();
           this.handleViolation(`Forbidden key combination detected`);
           return;
@@ -130,13 +125,7 @@ export class AntiCheatManager {
   }
 
   private setupFullscreenListener(): void {
-    const handleFullscreenChange = () => {
-      if (this.isActive && !document.fullscreenElement) {
-        this.handleViolation('Exited fullscreen mode');
-      }
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    // Tidak melakukan apa-apa lagi, listener dimatikan
   }
 
   private async requestFullscreen(): Promise<void> {
